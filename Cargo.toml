@@ -1,0 +1,8 @@
+[package]
+name = "editorconfig-me"
+version = "0.1.0"
+authors = ["Valentin Brandl <vbrandl@riseup.net>"]
+
+[dependencies]
+hyper = "0.10"
+reroute = "0.3.2"
