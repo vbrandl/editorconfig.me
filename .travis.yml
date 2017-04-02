@@ -9,3 +9,7 @@ matrix:
     - rust: nightly
 
 cache: cargo
+
+notifications:
+    email:
+        on_success: never
