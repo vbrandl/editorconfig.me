@@ -4,6 +4,7 @@ extern crate reroute;
 use std::fs::File;
 use std::io::{BufReader, Result};
 use std::io::prelude::*;
+use std::env;
 
 use hyper::Server;
 use hyper::server::{Request, Response};
@@ -66,6 +67,11 @@ fn read_file(name: &String) -> Result<String> {
     Ok(contents)
 }
 
+// Look up the server port in PORT for heroku or use 8080 as fallback
+fn get_server_port() -> String {
+    env::var("PORT").unwrap_or("8080".to_string())
+}
+
 fn main() {
     let mut builder = RouterBuilder::new();
 
@@ -75,10 +81,9 @@ fn main() {
 
     let router = builder.finalize().unwrap();
 
-    Server::http("127.0.0.1:3000")
-        .unwrap()
-        .handle(router)
-        .unwrap();
+    let mut listen = "0.0.0.0".to_string();
+    listen.push_str(&get_server_port());
+    Server::http(&listen).unwrap().handle(router).unwrap();
 }
 
 #[test]
