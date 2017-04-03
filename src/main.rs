@@ -81,7 +81,7 @@ fn main() {
 
     let router = builder.finalize().unwrap();
 
-    let mut listen = "0.0.0.0".to_string();
+    let mut listen = "0.0.0.0:".to_string();
     listen.push_str(&get_server_port());
     Server::http(&listen).unwrap().handle(router).unwrap();
 }
