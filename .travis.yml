@@ -9,6 +9,9 @@ matrix:
   allow_failures:
     - rust: nightly
 
+before_install:
+    - sudo apt-get update
+
 addons:
     apt:
         packages:
@@ -18,9 +21,6 @@ addons:
             - cmake
             - gcc
             - binutils-dev
-
-before_install:
-    - sudo apt-get update
 
 after_success: |
   wget https://github.com/SimonKagstrom/kcov/archive/master.tar.gz &&
