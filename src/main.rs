@@ -4,6 +4,7 @@ extern crate reroute;
 use std::fs::File;
 use std::io::{BufReader, Result};
 use std::io::prelude::*;
+use std::collections::HashSet;
 use std::env;
 
 use hyper::Server;
@@ -16,15 +17,16 @@ fn not_found(req: Request, res: Response, _: Captures) {
     res.send(msg.as_bytes()).unwrap();
 }
 
-fn parse_capture(cap: &String) -> Vec<String> {
+fn parse_capture(cap: &String) -> HashSet<String> {
     let caps: Vec<&str> = cap.split(|c| c == ',' || c == '/').collect();
-    let mut list: Vec<String> = Vec::new();
+    // let mut list: Vec<String> = Vec::new();
+    let mut list: HashSet<String> = HashSet::new();
     // &caps[2..] is used to skip `/api/`
     for val in &caps[2..] {
         if val.is_empty() {
             continue;
         }
-        list.push(val.to_string());
+        list.insert(val.to_string());
     }
     list
 }
@@ -88,8 +90,10 @@ fn main() {
 
 #[test]
 fn test_parse_capture() {
-    let actual = parse_capture(&"/api/,rust,,markdown,".to_string());
-    let expected = vec!["rust".to_string(), "markdown".to_string()];
+    let actual = parse_capture(&"/api/,rust,,markdown,,,rust,".to_string());
+    let expected: HashSet<String> = vec!["rust".to_string(), "markdown".to_string()]
+        .into_iter()
+        .collect();
     assert_eq!(actual, expected);
 }
 
