@@ -19,16 +19,15 @@ fn not_found(req: Request, res: Response, _: Captures) {
 
 fn parse_capture(cap: &String) -> HashSet<String> {
     let caps: Vec<&str> = cap.split(|c| c == ',' || c == '/').collect();
-    // let mut list: Vec<String> = Vec::new();
-    let mut list: HashSet<String> = HashSet::new();
+    let mut set: HashSet<String> = HashSet::new();
     // &caps[2..] is used to skip `/api/`
     for val in &caps[2..] {
         if val.is_empty() {
             continue;
         }
-        list.insert(val.to_string());
+        set.insert(val.to_string());
     }
-    list
+    set
 }
 
 fn list_handler(_: Request, res: Response, c: Captures) {
@@ -58,8 +57,6 @@ fn get_file_name(name: &String) -> String {
 }
 
 fn read_file(name: &String) -> Result<String> {
-    // let mut full_name = "./files/".to_string();
-    // full_name.push_str(&name);
     let file = File::open(name)?;
     let mut reader = BufReader::new(file);
     let mut contents = String::new();
@@ -69,7 +66,7 @@ fn read_file(name: &String) -> Result<String> {
     Ok(contents)
 }
 
-// Look up the server port in PORT for heroku or use 8080 as fallback
+/// Look up the server port in PORT for heroku or use 8080 as fallback
 fn get_server_port() -> String {
     env::var("PORT").unwrap_or("8080".to_string())
 }
