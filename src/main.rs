@@ -77,7 +77,7 @@ fn get_server_port() -> String {
 fn main() {
     let mut builder = RouterBuilder::new();
 
-    builder.get(r"/api/(,?(\w)+)+", list_handler);
+    builder.get(r"/api/(,?(\w)*)+", list_handler);
 
     builder.not_found(not_found);
 
