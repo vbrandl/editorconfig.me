@@ -2,17 +2,14 @@
     <h1>EditorConfig.Me</h1>
     <script type="text/javascript">
         function handleInput() {
-            var concat = "";
-            var spl = document.getElementById("lang").value.split(" "), i;
-            for (i = 0; i < spl.length; i++) {
-                concat += "," + spl[i];
-            }
-            document.location = "./api/" + concat;
+            var concat = document.getElementById("lang").value.split(" ").join();
+            alert(concat);
+            window.location.href = "./api/" + concat;
         }
     </script>
-    <form onsubmit="handleInput()">
+    <form>
         Query:<br />
         <input type="text" id="lang" value="" /><br />
-        <input type="submit" value="Submit" />
+        <input type="submit" id="btn" value="Submit" onclick="handleInput()" />
     </form>
 </html>
