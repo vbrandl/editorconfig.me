@@ -1,14 +1,15 @@
 <html>
     <h1>EditorConfig.Me</h1>
-    <script type="text/javascript">
-        function handleInput() {
-            var concat = document.getElementById("lang").value.split(" ").join();
-            window.location.href = window.location.origin + "/api/" + concat;
-        }
-    </script>
     <form>
         Query:<br />
         <input type="text" id="lang" value="" /><br />
-        <input type="submit" id="btn" value="Submit" onclick="handleInput()" />
+        <input type="submit" id="btn" value="Submit" />
     </form>
+    <script type="text/javascript">
+        document.getElementById('btn').addEventListener('click', (e) => {
+            e.preventDefault();
+            let concat = document.getElementById('lang').value.split(' ').join();
+            window.location.href = '/api/' + concat;
+        });
+    </script>
 </html>
