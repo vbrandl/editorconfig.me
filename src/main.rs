@@ -14,7 +14,13 @@ use reroute::{Captures, RouterBuilder};
 fn not_found(req: Request, res: Response, _: Captures) {
     let uri = format!("{}", req.uri);
     let msg = format!("No service found behind '{}'.", uri);
-    res.send(msg.as_bytes()).unwrap();
+    let con = match read_file(&"static/index.html".to_string()) {
+        Ok(c) => c,
+        Err(e) => "error".to_string(),
+    };
+    res.send(con.as_bytes()).unwrap();
+
+    // res.send(msg.as_bytes()).unwrap();
 }
 
 fn parse_capture(cap: &String) -> HashSet<String> {

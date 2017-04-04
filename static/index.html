@@ -1,0 +1,18 @@
+<html>
+    <h1>EditorConfig.Me</h1>
+    <script type="text/javascript">
+        function handleInput() {
+            var concat = "";
+            var spl = document.getElementById("lang").value.split(" "), i;
+            for (i = 0; i < spl.length; i++) {
+                concat += "," + spl[i];
+            }
+            document.location = "./api/" + concat;
+        }
+    </script>
+    <form onsubmit="handleInput()">
+        Query:<br />
+        <input type="text" id="lang" value="" /><br />
+        <input type="submit" value="Submit" />
+    </form>
+</html>
