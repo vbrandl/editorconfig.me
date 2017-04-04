@@ -3,8 +3,7 @@
     <script type="text/javascript">
         function handleInput() {
             var concat = document.getElementById("lang").value.split(" ").join();
-            alert(concat);
-            window.location.href = "./api/" + concat;
+            window.location.href = window.location.origin + "/api/" + concat;
         }
     </script>
     <form>
