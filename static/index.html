@@ -1,15 +1,29 @@
 <html>
-    <h1>EditorConfig.Me</h1>
-    <form>
-        Query:<br />
-        <input type="text" id="lang" value="" /><br />
-        <input type="submit" id="btn" value="Submit" />
-    </form>
-    <script type="text/javascript">
-        document.getElementById('btn').addEventListener('click', (e) => {
-            e.preventDefault();
-            let concat = document.getElementById('lang').value.split(' ').join();
-            window.location.href = '/api/' + concat;
-        });
-    </script>
+    <center>
+        <h1>EditorConfig.Me</h1>
+        <form>
+            Query:<br />
+            <input type="text" id="lang" value="" /><br />
+            <input type="submit" id="btn" value="Submit" />
+        </form>
+        <script type="text/javascript">
+document.getElementById('btn').addEventListener('click', (e) => {
+    e.preventDefault();
+    Array.prototype.clean = function(delVal) {
+        for (let i = 0; i < this.length; i++) {
+            if (this[i] == delVal) {
+                this.splice(i, 1);
+                i--;
+            }
+        }
+        return this;
+    }
+    let val = document.getElementById('lang').value.trim();
+    if (val.length > 0) {
+        let concat = val.split(' ').clean('').join();
+        window.location.href = '/api/' + concat;
+    }
+});
+        </script>
+    </center>
 </html>
