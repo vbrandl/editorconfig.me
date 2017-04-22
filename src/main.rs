@@ -10,7 +10,7 @@ use hyper::Server;
 use hyper::server::{Request, Response};
 use reroute::{Captures, RouterBuilder};
 
-static INDEX: &str = include_str!("../static/index.html");
+static INDEX: &'static str = include_str!("../static/index.html");
 
 fn not_found(_: Request, res: Response, _: Captures) {
     res.send(INDEX.as_bytes()).unwrap();
