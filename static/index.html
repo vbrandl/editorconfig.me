@@ -20,7 +20,7 @@ document.getElementById('btn').addEventListener('click', (e) => {
     }
     let val = document.getElementById('lang').value.trim();
     if (val.length > 0) {
-        let concat = val.split(' ').clean('').join();
+        let concat = val.split(/[\s,]+/).clean('').join();
         window.location.href = '/api/' + concat;
     }
 });
