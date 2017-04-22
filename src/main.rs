@@ -10,12 +10,10 @@ use hyper::Server;
 use hyper::server::{Request, Response};
 use reroute::{Captures, RouterBuilder};
 
+static INDEX: &str = include_str!("../static/index.html");
+
 fn not_found(_: Request, res: Response, _: Captures) {
-    let con = match read_file(&"static/index.html".to_string()) {
-        Ok(c) => c,
-        Err(e) => e.to_string(),
-    };
-    res.send(con.as_bytes()).unwrap();
+    res.send(INDEX.as_bytes()).unwrap();
 }
 
 fn parse_capture(cap: &String) -> Vec<String> {
