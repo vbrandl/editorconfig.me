@@ -4,36 +4,31 @@ extern crate reroute;
 use std::fs::File;
 use std::io::{BufReader, Result};
 use std::io::prelude::*;
-use std::collections::HashSet;
 use std::env;
 
 use hyper::Server;
 use hyper::server::{Request, Response};
 use reroute::{Captures, RouterBuilder};
 
-fn not_found(req: Request, res: Response, _: Captures) {
-    let uri = format!("{}", req.uri);
-    let msg = format!("No service found behind '{}'.", uri);
-    let con = match read_file(&"static/index.html".to_string()) {
-        Ok(c) => c,
-        Err(e) => "error".to_string(),
-    };
-    res.send(con.as_bytes()).unwrap();
+static INDEX: &str = include_str!("../static/index.html");
 
-    // res.send(msg.as_bytes()).unwrap();
+fn not_found(_: Request, res: Response, _: Captures) {
+    res.send(INDEX.as_bytes()).unwrap();
 }
 
-fn parse_capture(cap: &String) -> HashSet<String> {
+fn parse_capture(cap: &String) -> Vec<String> {
     let caps: Vec<&str> = cap.split(|c| c == ',' || c == '/').collect();
-    let mut set: HashSet<String> = HashSet::new();
+    let mut list: Vec<String> = Vec::new();
     // &caps[2..] is used to skip `/api/`
     for val in &caps[2..] {
         if val.is_empty() {
             continue;
         }
-        set.insert(val.to_string());
+        list.push(val.to_string());
     }
-    set
+    list.sort();
+    list.dedup();
+    list
 }
 
 fn list_handler(_: Request, res: Response, c: Captures) {
@@ -94,7 +89,7 @@ fn main() {
 #[test]
 fn test_parse_capture() {
     let actual = parse_capture(&"/api/,rust,,markdown,,,rust,".to_string());
-    let expected: HashSet<String> = vec!["rust".to_string(), "markdown".to_string()]
+    let expected: Vec<String> = vec!["markdown".to_string(), "rust".to_string()]
         .into_iter()
         .collect();
     assert_eq!(actual, expected);
