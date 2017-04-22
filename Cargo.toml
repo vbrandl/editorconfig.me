@@ -1,6 +1,6 @@
 [package]
 name = "editorconfig-me"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["Valentin Brandl <vbrandl@riseup.net>"]
 
 [dependencies]
