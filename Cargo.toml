@@ -5,4 +5,5 @@ authors = ["Valentin Brandl <vbrandl@riseup.net>"]
 
 [dependencies]
 hyper = "0.10"
-reroute = "0.3.2"
+reroute = "0.3"
+lazy_static = "0.2"

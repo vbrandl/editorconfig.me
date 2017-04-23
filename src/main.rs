@@ -1,5 +1,7 @@
 extern crate hyper;
 extern crate reroute;
+#[macro_use]
+extern crate lazy_static;
 
 use std::fs::File;
 use std::io::{BufReader, Result};
@@ -10,7 +12,12 @@ use hyper::Server;
 use hyper::server::{Request, Response};
 use reroute::{Captures, RouterBuilder};
 
-static INDEX: &'static str = include_str!("../static/index.html");
+lazy_static! {
+    static ref INDEX: String = match read_file(&"static/index.html".to_string()) {
+        Ok(c) => c,
+        Err(_) => "error".to_string(),
+    };
+}
 
 fn not_found(_: Request, res: Response, _: Captures) {
     res.send(INDEX.as_bytes()).unwrap();
